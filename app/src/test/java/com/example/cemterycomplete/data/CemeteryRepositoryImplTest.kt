@@ -58,24 +58,25 @@ class CemeteryRepositoryImplTest {
         1. get all cemteries from the network which will be remote data sources cemetery list
      */
     val remoteCemteryList = listOf<NetworkCemetery>(cemetery1, cemetery2)
-    val cemeterContainer = NetworkCemeteryContainer(remoteCemteryList)
+//    val cemeterContainer = NetworkCemeteryContainer(remoteCemteryList, isSuccessful = 1)
 
     val localCemeteryList = listOf<Cemetery>(cemetery3)
+
     private lateinit var cemeteryLocalDataSource: CemeteryDataSource
     private lateinit var cemeteryRemoteDataSource : CemeteryRemoteDataSource
-
     private lateinit var cemeteryRepository: CemeteryRepository
 
     @Before
     fun setup() {
         cemeteryLocalDataSource = FakeLocalDataSource(localCemeteryList)
-        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(cemeterContainer)
-
+        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(remoteCemteryList)
         cemeteryRepository = CemeteryRepositoryImpl(cemeteryLocalDataSource, cemeteryRemoteDataSource)
     }
 
     @Test
     fun get_cemeteries_from_network() = runBlockingTest {
+
+        ceme
 
     }
 }

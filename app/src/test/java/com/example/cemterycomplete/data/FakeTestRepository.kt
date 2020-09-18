@@ -5,8 +5,11 @@ import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.data.entities.Grave
 
 class FakeTestRepository: CemeteryRepository {
+
+
+
     override suspend fun refreshCemeteryList() {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>) {

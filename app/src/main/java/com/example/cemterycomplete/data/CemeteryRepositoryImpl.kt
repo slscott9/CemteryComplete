@@ -12,6 +12,13 @@ import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
+/*
+    The repo injects interfaces which are defined in the Di module as the LocalDataSourceImpl and remoteDataSourceImpl.
+
+    Injecting the interfaces allows for testing where a repo can be constructed with fake local and remote classes.
+
+    We can define our own test interface methods now.
+ */
 class CemeteryRepositoryImpl @Inject constructor(
     private val cemeteryLocalDataSourceImpl: CemeteryDataSource,
     private val cemeteryRemoteDataSourceImpl: CemeteryRemoteDataSource
@@ -19,12 +26,14 @@ class CemeteryRepositoryImpl @Inject constructor(
     override suspend fun refreshCemeteryList() {
         try {
             val cemeteryResponse = cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
-            Timber.i(cemeteryResponse.message)
-
-            cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryResponse.cemeteryNetworkCemeteryContainer!!)
+            Timber.i(cemeteryResponse.isSuccessful.toString())
+            if(cemeteryResponse.isSuccessful == 1){
+                cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryResponse)
+            }
 
         }catch (e: Exception){
             e.printStackTrace() //should catche the IOException
+
         }
     }
 

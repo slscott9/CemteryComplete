@@ -3,8 +3,8 @@ package com.example.cemterycomplete.data.remote
 import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.network.CemeteryServiceApi
 import com.example.cemterycomplete.network.SafeApiRequest
-import com.example.cemterycomplete.network.responses.CemeteryResponse
 import com.example.cemterycomplete.network.responses.CemeterySendResponse
+import com.example.cemterycomplete.utils.NetworkCemeteryContainer
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import timber.log.Timber
@@ -28,7 +28,7 @@ class CemeteryRemoteDataSourceImpl @Inject constructor(
         return  apiRequest { cemeteryServiceApi.sendNewCemeteryToNetwork(cemsListJsonString) }
     }
 
-    override suspend fun getCemeteryListFromNetwork(): CemeteryResponse =  apiRequest { cemeteryServiceApi.getCemeteriesFromNetwork() }
+    override suspend fun getCemeteryListFromNetwork(): NetworkCemeteryContainer =  apiRequest { cemeteryServiceApi.getCemeteriesFromNetwork() }
 
 
 }
