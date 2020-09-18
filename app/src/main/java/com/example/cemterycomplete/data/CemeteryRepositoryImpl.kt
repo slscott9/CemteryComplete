@@ -23,6 +23,11 @@ class CemeteryRepositoryImpl @Inject constructor(
     private val cemeteryLocalDataSourceImpl: CemeteryDataSource,
     private val cemeteryRemoteDataSourceImpl: CemeteryRemoteDataSource
 ): CemeteryRepository {
+
+    //break this up as just sending the view model a Response
+    //If the reponse is successful insert it into the database using a repostiory insert cemetery list into database method
+    //in the worker do the same
+    //This makes our function more testable
     override suspend fun refreshCemeteryList() {
         try {
             val cemeteryResponse = cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
