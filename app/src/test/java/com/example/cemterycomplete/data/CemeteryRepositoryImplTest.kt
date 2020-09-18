@@ -77,6 +77,5 @@ class CemeteryRepositoryImplTest {
     @Test
     fun get_cemeteries_from_network() = runBlockingTest {
 
-        cemeteryRepository.getcemet
     }
 }

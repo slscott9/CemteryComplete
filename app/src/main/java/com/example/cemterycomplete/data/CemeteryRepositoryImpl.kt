@@ -8,6 +8,7 @@ import com.example.cemterycomplete.data.local.CemeteryLocalDataSourceImpl
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSource
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSourceImpl
 import com.example.cemterycomplete.utils.asDatabaseModel
+import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ class CemeteryRepositoryImpl @Inject constructor(
     override suspend fun refreshCemeteryList() {
         try {
             val cemeteryResponse = cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
+            Timber.i(cemeteryResponse.message)
 
             cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryResponse.cemeteryNetworkCemeteryContainer!!)
 
@@ -27,7 +29,11 @@ class CemeteryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>) {
-
+        val cemResponse = cemeteryRemoteDataSourceImpl.sendNewCemeteriesToNetwork(cemeteryList)
+        if(!cemResponse.message.isNullOrEmpty()){
+            Timber.i(cemResponse.message)
+            Timber.i(cemResponse.isSuccessful.toString())
+        }
     }
 
     override suspend fun getNewCemeteriesForNetwork(): List<Cemetery> {
