@@ -6,11 +6,11 @@ import com.example.cemterycomplete.network.responses.CemeterySendResponse
 import com.example.cemterycomplete.utils.NetworkCemetery
 import com.example.cemterycomplete.utils.NetworkCemeteryContainer
 
-class FakeRemoteDataSourceTest(var cemeteryRemoteContainer: List<NetworkCemetery>): CemeteryRemoteDataSource {
+class FakeRemoteDataSourceTest(var cemeteryRemoteContainer: List<NetworkCemetery>?): CemeteryRemoteDataSource {
 
 
     override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>): CemeterySendResponse{
-        cemeteryRemoteContainer.let {
+        cemeteryRemoteContainer?.let {
             return CemeterySendResponse(1, message = "good send",
 
                 Cemetery(
@@ -27,12 +27,23 @@ class FakeRemoteDataSourceTest(var cemeteryRemoteContainer: List<NetworkCemetery
             )
             )
         }
+        return CemeterySendResponse(
+            isSuccessful = 0,
+            message = "failed to send cems",
+            cemetery = null
+        )
     }
 
     override suspend fun getCemeteryListFromNetwork(): NetworkCemeteryContainer {
+         cemeteryRemoteContainer?.let {
+            return NetworkCemeteryContainer(
+                isSuccessful = 1,
+                records = cemeteryRemoteContainer!!
+            )
+        }
         return NetworkCemeteryContainer(
-            isSuccessful = 1,
-            records = cemeteryRemoteContainer
+            isSuccessful = 0,
+            records = null
         )
     }
 

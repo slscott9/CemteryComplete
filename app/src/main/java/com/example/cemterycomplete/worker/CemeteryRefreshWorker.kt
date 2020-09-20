@@ -47,7 +47,11 @@ class CemeteryRefreshWorker @WorkerInject constructor(
         try {
             repository.sendNewCemeteriesToNetwork(testCemList)
             Timber.i("Work request for refreshing database is run")
-            repository.refreshCemeteryList()
+
+            val cemeteryResponse = repository.getCemeteryListFromNetwork()
+            if(cemeteryResponse.isSuccessful == 1){
+                repository.insertNetworkCemeteryList(cemeteryResponse)
+            }
         } catch (e: Exception) {
             Timber.i( e.message.toString())
 

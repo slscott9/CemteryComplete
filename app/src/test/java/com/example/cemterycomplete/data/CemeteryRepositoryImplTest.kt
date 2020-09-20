@@ -60,9 +60,10 @@ class CemeteryRepositoryImplTest {
         1. get all cemteries from the network which will be remote data sources cemetery list
      */
     val remoteCemteryList = listOf<NetworkCemetery>(cemetery1, cemetery2)
-//    val cemeterContainer = NetworkCemeteryContainer(remoteCemteryList, isSuccessful = 1)
 
     val localCemeteryList = listOf<Cemetery>(cemetery3)
+    val nullLocalCemeteryList: List<Cemetery>? = null
+    val nullRemoteCemeteryList: List<NetworkCemetery>? = null
 
     private lateinit var cemeteryLocalDataSource: CemeteryDataSource
     private lateinit var cemeteryRemoteDataSource : CemeteryRemoteDataSource
@@ -73,26 +74,52 @@ class CemeteryRepositoryImplTest {
 
     @Before
     fun setup() {
-        cemeteryLocalDataSource = FakeLocalDataSource(localCemeteryList)
-        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(remoteCemteryList)
+        cemeteryLocalDataSource = FakeLocalDataSource(nullLocalCemeteryList)
+        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(nullRemoteCemeteryList)
         cemeteryRepository = CemeteryRepositoryImpl(cemeteryLocalDataSource, cemeteryRemoteDataSource)
     }
 
     @Test
-    fun getCemsFromNetwork() = runBlockingTest {
+    fun getCemsFromNetworkFailure() = runBlockingTest {
 
         val cemNetworkList = cemeteryRemoteDataSource.getCemeteryListFromNetwork()
 
-        assertThat(cemNetworkList.isSuccessful).isEqualTo(1)
-        assertThat(cemNetworkList.records).isNotNull()
+        assertThat(cemNetworkList.isSuccessful).isEqualTo(0)
+        assertThat(cemNetworkList.records).isNull()
 
     }
 
     @Test
-    fun sendCemListToNetwork() = runBlockingTest {
+    fun sendCemListToNetworkFailure() = runBlockingTest {
 
+        val cemResponse = cemeteryRepository.sendNewCemeteriesToNetwork(localCemeteryList)
 
+        assertThat(cemResponse.isSuccessful).isEqualTo(0)
+        assertThat(cemResponse.cemetery).isNull()
+        assertThat(cemResponse.message).isNotEmpty()
+    }
 
-        assertThat(cemResponse)
+    @Test
+    fun getCemsFromNetworkSuccess() = runBlockingTest {
+        cemeteryLocalDataSource = FakeLocalDataSource(localCemeteryList)
+        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(remoteCemteryList)
+        cemeteryRepository = CemeteryRepositoryImpl(cemeteryLocalDataSource, cemeteryRemoteDataSource)
+
+        val cemeteryResponse = cemeteryRepository.getCemeteryListFromNetwork()
+        assertThat(cemeteryResponse.isSuccessful).isEqualTo(1)
+        assertThat(cemeteryResponse.records).isNotNull()
+    }
+
+    @Test
+    fun sendCemeteryListToNetworkSuccess()  = runBlockingTest{
+
+        cemeteryLocalDataSource = FakeLocalDataSource(localCemeteryList)
+        cemeteryRemoteDataSource = FakeRemoteDataSourceTest(remoteCemteryList)
+        cemeteryRepository = CemeteryRepositoryImpl(cemeteryLocalDataSource, cemeteryRemoteDataSource)
+
+        val cemeterySendResponse = cemeteryRepository.sendNewCemeteriesToNetwork(localCemeteryList)
+        assertThat(cemeterySendResponse.isSuccessful).isEqualTo(1)
+        assertThat(cemeterySendResponse.message).isNotEmpty()
+        assertThat(cemeterySendResponse.cemetery).isNotNull()
     }
 }

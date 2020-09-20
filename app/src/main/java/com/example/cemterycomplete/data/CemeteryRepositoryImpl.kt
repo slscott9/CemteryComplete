@@ -7,6 +7,8 @@ import com.example.cemterycomplete.data.local.CemeteryDataSource
 import com.example.cemterycomplete.data.local.CemeteryLocalDataSourceImpl
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSource
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSourceImpl
+import com.example.cemterycomplete.network.responses.CemeterySendResponse
+import com.example.cemterycomplete.utils.NetworkCemeteryContainer
 import com.example.cemterycomplete.utils.asDatabaseModel
 import timber.log.Timber
 import java.lang.Exception
@@ -28,26 +30,17 @@ class CemeteryRepositoryImpl @Inject constructor(
     //If the reponse is successful insert it into the database using a repostiory insert cemetery list into database method
     //in the worker do the same
     //This makes our function more testable
-    override suspend fun refreshCemeteryList() {
-        try {
-            val cemeteryResponse = cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
-            Timber.i(cemeteryResponse.isSuccessful.toString())
-            if(cemeteryResponse.isSuccessful == 1){
-                cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryResponse)
-            }
-
-        }catch (e: Exception){
-            e.printStackTrace() //should catche the IOException
-
-        }
+    override suspend fun getCemeteryListFromNetwork() : NetworkCemeteryContainer{
+            return cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
     }
 
-    override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>) {
-        val cemResponse = cemeteryRemoteDataSourceImpl.sendNewCemeteriesToNetwork(cemeteryList)
-        if(!cemResponse.message.isNullOrEmpty()){
-            Timber.i(cemResponse.message)
-            Timber.i(cemResponse.isSuccessful.toString())
-        }
+    override suspend fun insertNetworkCemeteryList(cemeteryContainer: NetworkCemeteryContainer) {
+        cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryContainer)
+    }
+
+    override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>) : CemeterySendResponse{
+        return  cemeteryRemoteDataSourceImpl.sendNewCemeteriesToNetwork(cemeteryList)
+
     }
 
     override suspend fun getNewCemeteriesForNetwork(): List<Cemetery> {

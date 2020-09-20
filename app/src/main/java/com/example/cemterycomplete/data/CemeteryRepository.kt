@@ -3,12 +3,16 @@ package com.example.cemterycomplete.data
 import androidx.lifecycle.LiveData
 import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.data.entities.Grave
+import com.example.cemterycomplete.network.responses.CemeterySendResponse
+import com.example.cemterycomplete.utils.NetworkCemeteryContainer
 
 interface CemeteryRepository {
 
-    suspend fun refreshCemeteryList()
+    suspend fun getCemeteryListFromNetwork() : NetworkCemeteryContainer
 
-    suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>)
+    suspend fun insertNetworkCemeteryList(cemeteryContainer: NetworkCemeteryContainer)
+
+    suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>): CemeterySendResponse
 
 
     suspend fun getNewCemeteriesForNetwork(): List<Cemetery>

@@ -12,7 +12,7 @@ import com.squareup.moshi.JsonClass
  */
 
 @JsonClass(generateAdapter = true)
-data class NetworkCemeteryContainer(val records: List<NetworkCemetery>, val isSuccessful: Int)
+data class NetworkCemeteryContainer(val records: List<NetworkCemetery>?, val isSuccessful: Int)
 
 
 
@@ -36,7 +36,7 @@ data class NetworkCemetery(
 
 //Convert our Network objects into database models
 fun NetworkCemeteryContainer.asDatabaseModel(): Array<Cemetery> {
-    return records.map {
+    return records!!.map {
         Cemetery(
             cemeteryRowId = it.cemetery_id.toInt(),
             cemeteryName = it.name,
