@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">CemteryComplete</string>
+    <string name="established">"Established: "</string>
+    <string name="location">location</string>
+    <string name="range">Range:</string>
+    <string name="spot">Spot:</string>
+    <string name="section">Section:</string>
+    <string name="birth_date">Birth Date:</string>
+    <string name="death_date">Death Date:</string>
+    <string name="married">Married:</string>
+    <string name="comment">Comment:</string>
+    <string name="grave_number">Grave Number:</string>
+    <string name="add">add</string>
+    <string name="delete">delete</string>
+    <string name="send">send</string>
+    <string name="edit">edit</string>
+    <string name="state">State:</string>
+    <string name="county">County:</string>
+    <string name="township">Township:</string>
 </resources>

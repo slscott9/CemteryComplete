@@ -1,5 +1,6 @@
 package com.example.cemterycomplete.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.example.cemterycomplete.R
 import com.example.cemterycomplete.databinding.ActivityCemeteryListBinding
 import com.example.cemterycomplete.ui.adapters.CemeteryListAdapter
 import com.example.cemterycomplete.ui.adapters.CemeteryListener
+import com.example.cemterycomplete.ui.viewmodels.CemeteryDetailViewModel
 import com.example.cemterycomplete.ui.viewmodels.CemeteryListViewModel
 import com.example.cemterycomplete.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +28,15 @@ class CemeteryListActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
 
-        val cemeteryListAdapter = CemeteryListAdapter(CemeteryListener {
 
+
+        val cemeteryListAdapter = CemeteryListAdapter(CemeteryListener {
+            startActivity(
+                Intent(this, CemeteryDetailActivity::class.java).apply {
+                    putExtra(CemeteryDetailViewModel.CEMETERY_SELECTED, it)
+                }
+
+            )
         })
 
 
@@ -52,6 +61,12 @@ class CemeteryListActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.addCemeteryFAB.setOnClickListener {
+            startActivity(
+                Intent(this, CreateCemeteryActivity)
+            )
+        }
 
 
 

@@ -47,7 +47,7 @@ class CemeteryApplication  : Application()  , androidx.work.Configuration.Provid
             .build()
 
         val repeatingRequest =
-            PeriodicWorkRequestBuilder<CemeteryRefreshWorker>(15, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<CemeteryRefreshWorker>(1, TimeUnit.DAYS)
                 .setConstraints(constraints)
                 .build()
 

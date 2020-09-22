@@ -5,12 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "complete_cemetery_table")
 data class Cemetery(
-//    @PrimaryKey(autoGenerate = false) //for when we receive cemeteries from the network
-//    @ColumnInfo(name = "row_number")
-//    val id: Int = 100,
-
     @PrimaryKey(autoGenerate = false)
-    val cemeteryRowId: Int = 100,
+    val cemeteryRowId: Int,
 
     val cemeteryName: String,
 

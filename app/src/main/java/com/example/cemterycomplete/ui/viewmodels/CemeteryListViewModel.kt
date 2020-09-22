@@ -20,8 +20,6 @@ class CemeteryListViewModel @ViewModelInject constructor(
     private val repository: CemeteryRepository
 ) : ViewModel() {
 
-
-
     private val _cemeteryResponse = MutableLiveData<Resource<String>>()
     val cemeteryResponse: LiveData<Resource<String>> = _cemeteryResponse
 
@@ -34,8 +32,9 @@ class CemeteryListViewModel @ViewModelInject constructor(
 
     fun refreshCemeteryList() {
         viewModelScope.launch {
-
             _cemeteryResponse.value = repository.refreshCemeteryList()
         }
     }
+
+
 }
