@@ -3,6 +3,7 @@ package com.example.cemterycomplete.utils
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.data.entities.Grave
 
@@ -34,7 +35,6 @@ fun TextView.setGraveLast(item: Grave?){
         text = item.lastName
     }
 
-    Log.i("BindingAdapter", "setGrave last name called")
 }
 
 @BindingAdapter("setGraveBirth")

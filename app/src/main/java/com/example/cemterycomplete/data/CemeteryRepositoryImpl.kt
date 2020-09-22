@@ -8,7 +8,9 @@ import com.example.cemterycomplete.data.local.CemeteryLocalDataSourceImpl
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSource
 import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSourceImpl
 import com.example.cemterycomplete.network.responses.CemeterySendResponse
+import com.example.cemterycomplete.utils.ApiException
 import com.example.cemterycomplete.utils.NetworkCemeteryContainer
+import com.example.cemterycomplete.utils.Resource
 import com.example.cemterycomplete.utils.asDatabaseModel
 import timber.log.Timber
 import java.lang.Exception
@@ -30,8 +32,20 @@ class CemeteryRepositoryImpl @Inject constructor(
     //If the reponse is successful insert it into the database using a repostiory insert cemetery list into database method
     //in the worker do the same
     //This makes our function more testable
-    override suspend fun getCemeteryListFromNetwork() : NetworkCemeteryContainer{
-            return cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
+    override suspend fun refreshCemeteryList() : Resource<String>{
+            return try{
+                val cemeteryListResponse = cemeteryRemoteDataSourceImpl.getCemeteryListFromNetwork()
+                cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryListResponse)
+                Timber.i("Successfullly refreshed ")
+
+                Resource.success("Successfully refreshed cemetery list")
+
+            }catch (e: Exception){
+                e.printStackTrace()
+                Resource.error("Unknown error", e.message)
+            }catch (apiException: ApiException){
+                Resource.error("Check Network connection", apiException.message)
+            }
     }
 
     override suspend fun insertNetworkCemeteryList(cemeteryContainer: NetworkCemeteryContainer) {

@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.data.entities.Grave
 import com.example.cemterycomplete.data.local.CemeteryDataSource
-import com.example.cemterycomplete.data.remote.CemeteryRemoteDataSource
 import com.example.cemterycomplete.utils.NetworkCemeteryContainer
 
-class FakeLocalDataSource(var cemeteryLocalList: List<Cemetery>? = mutableListOf()) : CemeteryDataSource {
+class FakeLocalDataSource : CemeteryDataSource {
 
 
     override suspend fun insertAllCemeteriesFromNetwork(cemeteryList: NetworkCemeteryContainer) {
@@ -53,5 +52,4 @@ class FakeLocalDataSource(var cemeteryLocalList: List<Cemetery>? = mutableListOf
     override suspend fun getMaxGraveRowId(): Int? {
         TODO("Not yet implemented")
     }
-
 }

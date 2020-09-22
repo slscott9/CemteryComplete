@@ -53,7 +53,7 @@ class CemeteryApplication  : Application()  , androidx.work.Configuration.Provid
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             CemeteryRefreshWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.KEEP, //keep means if we have created this work before just keep it, do not create new work again
             repeatingRequest
         )
     }

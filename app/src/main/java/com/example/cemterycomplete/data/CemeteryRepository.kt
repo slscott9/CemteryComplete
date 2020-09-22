@@ -5,10 +5,11 @@ import com.example.cemterycomplete.data.entities.Cemetery
 import com.example.cemterycomplete.data.entities.Grave
 import com.example.cemterycomplete.network.responses.CemeterySendResponse
 import com.example.cemterycomplete.utils.NetworkCemeteryContainer
+import com.example.cemterycomplete.utils.Resource
 
 interface CemeteryRepository {
 
-    suspend fun getCemeteryListFromNetwork() : NetworkCemeteryContainer
+    suspend fun refreshCemeteryList() : Resource<String>
 
     suspend fun insertNetworkCemeteryList(cemeteryContainer: NetworkCemeteryContainer)
 

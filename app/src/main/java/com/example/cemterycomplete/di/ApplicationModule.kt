@@ -1,6 +1,7 @@
 package com.example.cemterycomplete.di
 
 import android.content.Context
+import com.example.cemterycomplete.data.CemeteryRepository
 import com.example.cemterycomplete.data.CemeteryRepositoryImpl
 import com.example.cemterycomplete.data.local.CemeteryDao
 import com.example.cemterycomplete.data.local.CemeteryDataSource
@@ -45,7 +46,7 @@ object ApplicationModule {
     //returns the repo impl
     @Singleton
     @Provides
-    fun provideCemeteryRepoImpl(cemeteryLocalDataSourceImpl: CemeteryDataSource, cemeteryRemoteDataSource: CemeteryRemoteDataSource): CemeteryRepositoryImpl {
+    fun provideCemeteryRepoImpl(cemeteryLocalDataSourceImpl: CemeteryDataSource, cemeteryRemoteDataSource: CemeteryRemoteDataSource): CemeteryRepository {
         return CemeteryRepositoryImpl(cemeteryLocalDataSourceImpl, cemeteryRemoteDataSource)
     }
     /*

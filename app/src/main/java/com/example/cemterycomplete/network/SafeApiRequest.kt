@@ -18,6 +18,7 @@ abstract class SafeApiRequest {
                 try {
                     message.append(JSONObject(it).getString("message")) //target the "message" json string from response from dad append it to message variable
                 } catch (e: JSONException) {
+
                 }
                 message.append("\n")
             }
