@@ -64,12 +64,11 @@ class CemeteryListActivity : AppCompatActivity() {
 
         binding.addCemeteryFAB.setOnClickListener {
             startActivity(
-                Intent(this, CreateCemeteryActivity)
+                Intent(this, CreateCemeteryActivity::class.java)
             )
         }
 
-
-
+        viewModel.sendNewCemeteriesToNetwork()
 
     }
 }

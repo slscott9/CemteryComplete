@@ -13,7 +13,7 @@ interface CemeteryRepository {
 
     suspend fun insertNetworkCemeteryList(cemeteryContainer: NetworkCemeteryContainer)
 
-    suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>): CemeterySendResponse
+    suspend fun sendNewCemeteriesToNetwork(): CemeterySendResponse
 
 
     suspend fun getNewCemeteriesForNetwork(): List<Cemetery>

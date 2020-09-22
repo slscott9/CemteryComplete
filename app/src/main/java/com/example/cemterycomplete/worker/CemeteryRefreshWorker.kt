@@ -24,20 +24,7 @@ class CemeteryRefreshWorker @WorkerInject constructor(
         const val WORK_NAME = "refresh_data_worker"
     }
 
-    val testCemList = listOf<Cemetery>(
-        Cemetery(
-            cemeteryRowId = 1,
-            cemeteryName = "Thorsby",
-            cemeteryCounty = "Chilton",
-            cemeteryState = "AL",
-            cemeteryLocation = "Thorsby",
-            firstYear = "1888",
-            section = "T section",
-            spot = "T spot",
-            range = "T range",
-            township = "T township"
-        )
-    )
+
 
     /*
     sendCemsToNetwork will call dao method to find new cemetery and graves that will be the list we send to network
@@ -45,7 +32,8 @@ class CemeteryRefreshWorker @WorkerInject constructor(
     override suspend fun doWork(): Result {
         Timber.i("Starting doWork")
         try {
-            repository.sendNewCemeteriesToNetwork(testCemList)
+
+//            repository.sendNewCemeteriesToNetwork()
             Timber.i("Work request for refreshing database is run")
 
             repository.refreshCemeteryList()

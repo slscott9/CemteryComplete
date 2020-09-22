@@ -52,8 +52,9 @@ class CemeteryRepositoryImpl @Inject constructor(
         cemeteryLocalDataSourceImpl.insertAllCemeteriesFromNetwork(cemeteryContainer)
     }
 
-    override suspend fun sendNewCemeteriesToNetwork(cemeteryList: List<Cemetery>) : CemeterySendResponse{
-        return  cemeteryRemoteDataSourceImpl.sendNewCemeteriesToNetwork(cemeteryList)
+    override suspend fun sendNewCemeteriesToNetwork() : CemeterySendResponse{
+        val newCemist = cemeteryLocalDataSourceImpl.getNewCemeteriesForNetwork()
+        return  cemeteryRemoteDataSourceImpl.sendNewCemeteriesToNetwork(newCemist)
 
     }
 

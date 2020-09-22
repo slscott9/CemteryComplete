@@ -36,5 +36,12 @@ class CemeteryListViewModel @ViewModelInject constructor(
         }
     }
 
+    fun sendNewCemeteriesToNetwork(){
+        viewModelScope.launch {
+            repository.sendNewCemeteriesToNetwork()
+
+        }
+    }
+
 
 }
